@@ -81,18 +81,14 @@ bool jkpak::starts_with(std::string_view str, std::string_view start) {
 }
 
 void jkpak::foreach_pk3(std::string_view path, std::function<void(const char *filepath)> callback) {
-#if defined(__linux__)
 	auto dir = Dir::open(path.data());
 	for (auto entry = dir.read(); entry.has_value(); entry = dir.read()) {
-		auto filename = entry.value()->d_name;
+		auto filename = entry.value().filename();
 		if (ends_with(filename, ".pk3")
 		    && !blacklisted(filename)) {
 			callback(filename);
 		}
 	}
-#else
-#	error "jkpak::foreach_pk3 not implemented for platform"
-#endif
 }
 
 void jkpak::rmdir(std::string_view path) {
