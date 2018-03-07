@@ -43,9 +43,28 @@ const std::string& jkpak::config_path() {
 #endif
 }
 
+#ifdef _WIN32
+static std::string get_win32_tmp() {
+	char buf[MAX_PATH+1];
+	auto res = GetTempPathA(sizeof(buf), buf);
+	if (res == 0) {
+		auto errc = GetLastError();
+		throw std::runtime_error(jkpak::strerror(errc, "get_win32_tmp() failed"));
+	}
+	// trim trailing path sep
+	if (res > 0 && (buf[res-1] == '\\' || buf[res-1] == '/')) {
+		buf[res-1] = 0;
+	}
+	return std::string{buf};
+}
+#endif
+
 const std::string& jkpak::tmp_path() noexcept {
 #if defined(__linux__)
-	static std::string path = "/tmp/jkpak";
+	static const std::string path = "/tmp/jkpak";
+	return path;
+#elif defined(_WIN32)
+	static const std::string path = get_win32_tmp();
 	return path;
 #else
 #	error "jkpak::tmp_path() not implemented for platform"
@@ -54,7 +73,7 @@ const std::string& jkpak::tmp_path() noexcept {
 
 void jkpak::exec(std::string_view cmd) {
 	auto res = std::system(cmd.data());
-	if (res == EXIT_FAILURE) throw std::runtime_error(std::strerror(errno));
+	if (res == EXIT_FAILURE) throw std::runtime_error(jkpak::strerror(errno, "system() failed"));
 }
 
 std::string jkpak::quote(std::string_view s) {
