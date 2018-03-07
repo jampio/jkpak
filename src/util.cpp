@@ -135,10 +135,21 @@ void jkpak::foreach_pk3(std::string_view path, std::function<void(const char *fi
 }
 
 void jkpak::rmdir(std::string_view path) {
-#if defined(__linux__)
-	exec(std::string("rm -rf ") + quote(path));
+#if defined(_WIN32)
+	SHFILEOPSTRUCTA ops = {};
+	// buf must be double null terminated
+	// so zero-initialising whole array should be safe
+	// and only copy up to N-1
+	char buf[MAX_PATH] = {};
+	(void) strcpy_s(buf, sizeof(buf)-1, path.data());
+	ops.wFunc = FO_DELETE;
+	ops.pFrom = buf;
+	ops.fFlags = FOF_NO_UI;
+	auto errc = SHFileOperationA(&ops);
+	if (errc == 0) return;
+	throw std::runtime_error(jkpak::strerror(errc, "SHFileOperationA() failed"));
 #else
-#	error "jkpak::rmdir() not implemented for platform"
+	exec(std::string("rm -rf ") + quote(path));
 #endif
 }
 
