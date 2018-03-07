@@ -1,7 +1,9 @@
 # jkpak
 A pk3 manager for jedi academy. I could see it being repurposed for other games as well.
+
 Feel free to open issues for jkpak requests/bugs/etc.
-To request a file be added, please send a pull request or open an issue here[https://github.com/jampio/jkpak-repo](jkpak-repo). (not in this repo please)
+
+To request a file be added, please send a pull request or open an issue here [https://github.com/jampio/jkpak-repo](jkpak-repo). (not in this repo please)
 
 ### future plans
 * cross-platform support
