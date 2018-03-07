@@ -67,3 +67,7 @@ void jkpak::cmd::delete_file(std::string_view pak) {
 		}
 	});
 }
+
+void jkpak::cmd::update() {
+	Pkg::update();
+}

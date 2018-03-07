@@ -22,5 +22,6 @@ public:
 		return m_url;
 	}
 	static std::optional<Pkg> find(std::string_view pkg_name);
+	static void update();
 };
 }

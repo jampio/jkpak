@@ -9,6 +9,7 @@ Usage: jkpak install <PKG_NAME>|<URL>
        jkpak set-install-path <PATH>
        jkpak ls|list
        jkpak rm|remove <PK3>
+       jkpak update
 )";
 
 int main(int argc, const char **argv) {
@@ -21,6 +22,8 @@ int main(int argc, const char **argv) {
 			jkpak::cmd::list();
 		} else if (argc == 3 && (!strcmp(argv[1], "rm") || !strcmp(argv[1], "remove"))) {
 			jkpak::cmd::delete_file(argv[2]);
+		} else if (argc == 2 && !strcmp(argv[1], "update")) {
+			jkpak::cmd::update();
 		} else {
 			std::cout << USAGE << std::endl;
 		}

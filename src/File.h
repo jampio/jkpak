@@ -86,5 +86,13 @@ public:
 		}
 		return std::string(buf.get(), size);
 	}
+	static bool exists(std::string_view path) {
+		try {
+			auto file = File::open(path, "r");
+			return true;
+		} catch (...) {
+			return false;
+		}
+	}
 };
 }
