@@ -5,13 +5,13 @@
 #include "Dir.h"
 #include <cctype>
 
+constexpr auto NT_PATH = "\\";
+constexpr auto POSIX_PATH = "/";
+
 const std::string& jkpak::path_sep() noexcept {
-#if defined(__linux__)
-	static std::string sep = "/";
+	// Win32 API supports POSIX paths
+	static const std::string sep = POSIX_PATH;
 	return sep;
-#else
-#	error "jkpak::path_sep() not implemented for platform"
-#endif
 }
 
 std::optional<std::string> jkpak::env(std::string_view var_name) noexcept {
