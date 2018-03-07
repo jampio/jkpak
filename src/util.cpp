@@ -15,8 +15,18 @@ const std::string& jkpak::path_sep() noexcept {
 }
 
 std::optional<std::string> jkpak::env(std::string_view var_name) noexcept {
+#if defined(_MSC_VER)
+	char *str;
+	auto errc = _dupenv_s(&str, nullptr, var_name.data());
+	if (errc == 0) {
+		std::string res{str};
+		free(str);
+		return res;
+	} else return {};
+#else
 	if (auto var = getenv(var_name.data())) return var;
 	return {};
+#endif
 }
 
 const std::string& jkpak::config_path() {
