@@ -154,10 +154,10 @@ void jkpak::rmdir(std::string_view path) {
 }
 
 void jkpak::rm(std::string_view file) {
-#if defined(__linux__)
-	exec(std::string("rm ") + quote(file));
+#if defined(_WIN32)
+	exec(std::string("del ") + quote(file));
 #else
-#	error "jkpak::rm() not implemented for platform"
+	exec(std::string("rm ") + quote(file));
 #endif
 }
 
