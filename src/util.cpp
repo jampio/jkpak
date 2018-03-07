@@ -16,7 +16,7 @@ const std::string& jkpak::path_sep() noexcept {
 
 std::optional<std::string> jkpak::env(std::string_view var_name) noexcept {
 #if defined(_MSC_VER)
-	char *str;
+	char *str = nullptr;
 	auto errc = _dupenv_s(&str, nullptr, var_name.data());
 	if (errc == 0) {
 		std::string res{str};
