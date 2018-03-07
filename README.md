@@ -11,18 +11,20 @@ To request a file be added, please send a pull request or open an issue here [jk
 
 ### building
 Requirements
-* Python2 or Python3 installed (for conan)
-* C++17 compiler
+* CMake (ver. >= 3.10.2)
+* Python 2 (ver. >= 2.7.9) or Python 3 (ver. >= 3.4)
+* Conan (ver. >= 1) (a C++ dependency manager)
+* C++17 compiler (should support either -std=c++17 or /std:c++17)
 ```shell
-# make sure conan is installed, can use pip3 for python 3
+# install conan if you haven't already
 pip install conan
-# add conan repo bincrafters (for libcurl)
+# add bincrafters repository (contains libcurl)
 conan add remote bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-# (...)
 git clone https://github.com/jampio/jkpak
 cd jkpak && mkdir build && cd build
 conan install ..
 conan build ..
+# (for UNIX only)
 # this will install to /usr/local/bin
 sudo cmake --build . --target install
 ```
