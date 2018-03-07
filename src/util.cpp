@@ -103,10 +103,10 @@ void jkpak::mkdir(std::string_view path) {
 }
 
 void jkpak::cp(std::string_view filename, std::string_view destination) {
-#if defined(__linux__)
-	exec(std::string("cp ") + quote(filename) + " " + quote(destination));
+#if defined(_WIN32)
+	exec(std::string("copy ") + quote(filename) + " " + quote(destination));
 #else
-#	error "jkpak::cp() not implemented for platform"
+	exec(std::string("cp ") + quote(filename) + " " + quote(destination));
 #endif
 }
 
