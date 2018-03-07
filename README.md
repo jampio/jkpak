@@ -3,7 +3,7 @@ A pk3 manager for jedi academy. I could see it being repurposed for other games 
 
 Feel free to open issues for jkpak requests/bugs/etc.
 
-To request a file be added, please send a pull request or open an issue here [https://github.com/jampio/jkpak-repo](jkpak-repo). (not in this repo please)
+To request a file be added, please send a pull request or open an issue here [jkpak-repo](https://github.com/jampio/jkpak-repo). (not in this repo please)
 
 ### future plans
 * cross-platform support
@@ -36,8 +36,10 @@ jkpak set-install-path ~/.local/share/openjk/base/
 jkpak update
 # install something
 jkpak install countryacademy
+# or with url
+jkpak install https://files.jkhub.org/jka/maps/ffa/countryacademy.zip
 # list installed pk3s
 jkpak ls
-# deleted a pk3
+# remove a pk3
 jkpak rm countryacademy.pk3
 ```
