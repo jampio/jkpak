@@ -15,6 +15,7 @@ Requirements
 * Python 2 (ver. >= 2.7.9) or Python 3 (ver. >= 3.4)
 * Conan (ver. >= 1) (a C++ dependency manager)
 * C++17 compiler (should support either -std=c++17 or /std:c++17)
+* unzip available in PATH
 ```shell
 # install conan if you haven't already
 pip install conan
