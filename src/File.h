@@ -7,6 +7,7 @@
 #include <string>
 #include <string_view>
 #include <memory>
+#include "util.h"
 
 namespace jkpak {
 class File {
@@ -39,15 +40,22 @@ public:
 		return res != 0;
 	}
 	static File open(std::string_view filename, std::string_view mode) {
+#if defined(_MSC_VER)
+		std::FILE *fp;
+		auto err = fopen_s(&fp, filename.data(), mode.data());
+		if (err == 0) return File{fp};
+		else throw std::runtime_error(jkpak::strerror(err, "fopen failed"));
+#else
 		auto fp = std::fopen(filename.data(), mode.data());
 		if (fp == nullptr) {
-			throw std::runtime_error(std::strerror(errno));
+			throw std::runtime_error(jkpak::strerror(errno, "fopen failed"));
 		}
 		return File{fp};
+#endif
 	}
 	std::size_t write(const void *buffer, std::size_t size, std::size_t count) {
 		auto res = std::fwrite(buffer, size, count, handle);
-		if (error()) throw std::runtime_error(std::strerror(errno));
+		if (error()) throw std::runtime_error(jkpak::strerror(errno, "fwrite() failed"));
 		return res;
 	}
 	std::size_t write(std::string_view str) {
@@ -55,20 +63,20 @@ public:
 	}
 	std::size_t read(void *buffer, std::size_t size, std::size_t count) {
 		auto res = std::fread(buffer, size, count, handle);
-		if (error()) throw std::runtime_error(std::strerror(errno));
+		if (error()) throw std::runtime_error(jkpak::strerror(errno, "fread() failed"));
 		return res;
 
 	}
 	void seek(long offset, int origin) {
 		auto res = std::fseek(handle, offset, origin);
 		if (res != 0) {
-			throw std::runtime_error(std::strerror(errno));
+			throw std::runtime_error(jkpak::strerror(errno, "fseek() failed"));
 		}
 	}
 	long tell() {
 		auto res = ftell(handle);
 		if (res == -1L) {
-			throw std::runtime_error(std::strerror(errno));
+			throw std::runtime_error(jkpak::strerror(errno, "ftell() failed"));
 		}
 		return res;
 	}

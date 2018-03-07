@@ -19,7 +19,7 @@ static int progress_proc(void *clientp, double dltotal, double dlnow, double ult
 	}
 	constexpr int DOTS_TOTAL = 40;
 	const double frac = dlnow / dltotal;
-	const int dots = std::round(frac * DOTS_TOTAL);
+	const auto dots = int(std::round(frac * DOTS_TOTAL));
 	printf("%3d%% [", int(frac * 100));
 	int dot_index = 0;
 	while (dot_index++ < dots) {

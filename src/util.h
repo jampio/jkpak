@@ -23,6 +23,7 @@ namespace jkpak {
 	std::string clean_filename(std::string_view filename);
 	std::string tolower(std::string_view str);
 	std::size_t casefind(std::string_view str, std::string_view pat);
+	std::string strerror(int code, std::string_view generic);
 	bool blacklisted(std::string_view pak);
 	template <typename Proc> 
 	std::string filter(std::string_view str, Proc&& proc) noexcept {

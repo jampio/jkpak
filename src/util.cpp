@@ -148,3 +148,14 @@ bool jkpak::blacklisted(std::string_view pak) {
 	}
 	return false;
 }
+
+std::string jkpak::strerror(int code, std::string_view generic) {
+#ifdef _MSC_VER
+	char buf[1024];
+	auto err = strerror_s(buf, code);
+	std::string msg{err == 0 ? buf : generic.data()};
+	return msg;
+#else
+	return std::strerror(code);
+#endif
+}
