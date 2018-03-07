@@ -5,6 +5,10 @@
 #include "Dir.h"
 #include <cctype>
 
+#ifdef _WIN32
+#	include <shlobj.h>
+#endif
+
 constexpr auto NT_PATH = "\\";
 constexpr auto POSIX_PATH = "/";
 
@@ -81,10 +85,15 @@ std::string jkpak::quote(std::string_view s) {
 }
 
 void jkpak::mkdir(std::string_view path) {
-#if defined(__linux__)
-	exec(std::string("mkdir -p ") + quote(path));
+#if defined(_WIN32)
+	// _mkdir() and CreateDirectory are not recursive
+	// COM MKDIR does not have a "-p" like option
+	auto errc = SHCreateDirectoryExA(nullptr, path.data(), nullptr);
+	if (errc == ERROR_SUCCESS || errc == ERROR_FILE_EXISTS || errc == ERROR_ALREADY_EXISTS) {
+		return;
+	} else throw std::runtime_error(jkpak::strerror(errc, "SHCreateDirectory() failed"));
 #else
-#	error "jkpak::mkdir() not implemented for platform"
+	exec(std::string("mkdir -p ") + quote(path));
 #endif
 }
 
