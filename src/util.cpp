@@ -13,8 +13,13 @@ constexpr auto NT_PATH = "\\";
 constexpr auto POSIX_PATH = "/";
 
 const std::string& jkpak::path_sep() noexcept {
-	// Win32 API supports POSIX paths
+	// although Win32 api does translate posix paths
+	// I don't want to rely on it
+#if defined(_WIN32)
+	static const std::string sep = NT_PATH;
+#else
 	static const std::string sep = POSIX_PATH;
+#endif
 	return sep;
 }
 
