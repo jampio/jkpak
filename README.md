@@ -19,7 +19,8 @@ Requirements
 # install conan if you haven't already
 pip install conan
 # add bincrafters repository (contains libcurl)
-conan add remote bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+# ...
 git clone https://github.com/jampio/jkpak
 cd jkpak && mkdir build && cd build
 conan install ..
