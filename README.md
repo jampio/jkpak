@@ -24,7 +24,8 @@ conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-co
 git clone https://github.com/jampio/jkpak
 cd jkpak && mkdir build && cd build
 conan install ..
-conan build ..
+cmake ..
+cmake --build .
 # (for UNIX only)
 # this will install to /usr/local/bin
 sudo cmake --build . --target install
