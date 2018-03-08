@@ -32,7 +32,7 @@ conan install -s arch=x86 .. && cmake ..
 # cmake uses the native host on other platforms
 conan install .. && cmake ..
 # build
-cmake --build .
+cmake --build . --config Release
 # (for UNIX only)
 # this will install to /usr/local/bin
 sudo cmake --build . --target install
