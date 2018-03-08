@@ -9,10 +9,14 @@
 class SetupDir {
 public:
 	~SetupDir() {
-		jkpak::rmdir(jkpak::tmp_path());
+		try {
+			jkpak::rmdir(jkpak::tmp_path());
+		} catch (std::exception &e) {
+			std::cerr << "~SetupDir() Exception caught: " << e.what() << std::endl;
+		}
 	}
 	SetupDir() {
-		this->~SetupDir();
+		jkpak::rmdir(jkpak::tmp_path());
 		jkpak::mkdir(jkpak::tmp_path());
 	}
 };

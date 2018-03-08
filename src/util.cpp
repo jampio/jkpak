@@ -143,7 +143,7 @@ void jkpak::rmdir(std::string_view path) {
 	ops.pFrom = buf;
 	ops.fFlags = FOF_NO_UI;
 	auto errc = SHFileOperationA(&ops);
-	if (errc == 0) return;
+	if (errc == 0 || errc == ERROR_FILE_NOT_FOUND || errc == ERROR_PATH_NOT_FOUND) return;
 	throw std::runtime_error(jkpak::strerror(errc, "SHFileOperationA() failed"));
 #else
 	exec(std::string("rm -rf ") + quote(path));
