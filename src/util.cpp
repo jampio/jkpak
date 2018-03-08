@@ -209,3 +209,12 @@ std::string jkpak::strerror(int code, std::string_view generic) {
 	return std::strerror(code);
 #endif
 }
+
+std::string jkpak::escape_path(std::string_view path) {
+	std::string res;
+	for (auto c: path) {
+		if (c == '\\') { res.push_back('\\'); res.push_back('\\'); }
+		else res.push_back(c);
+	}
+	return res;
+}

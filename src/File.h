@@ -89,10 +89,12 @@ public:
 		rewind();
 		std::unique_ptr<char[]> buf = std::make_unique<char[]>(size);
 		auto res = read(buf.get(), sizeof(char), size);
+#if 0
 		if (res != size) {
 			throw std::runtime_error("contents() failed, size of read did not match");
 		}
-		return std::string(buf.get(), size);
+#endif
+		return std::string(buf.get(), res);
 	}
 	static bool exists(std::string_view path) {
 		try {

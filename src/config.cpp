@@ -25,6 +25,6 @@ jkpak::Config jkpak::Config::load() {
 void jkpak::Config::set_install_path(std::string_view install_path) {
 	mkdir(config_path());
 	auto file = File::open(config_filename, "w+");
-	auto contents = std::string("{\n    \"install_path\": ") + quote(install_path) + "\n}";
+	auto contents = std::string("{\n    \"install_path\": ") + quote(escape_path(install_path)) + "\n}";
 	file.write(contents);
 }
