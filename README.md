@@ -24,12 +24,11 @@ conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-co
 # ...
 git clone https://github.com/jampio/jkpak
 cd jkpak && mkdir build && cd build
-# Note: CMake defaults to 32 bit on Windows 64-bit
-# To force 64-bit build
-conan install -s arch=x86_64 .. && cmake -A x64 ..
-# otherwise 32-bit (cmake default)
+# For Windows x86_64 (note: cmake defaults to 32-bit on 64-bit hosts)
+conan install .. && cmake -A x64 ..
+# For Windows x86_64 crossbuild to Windows x86
 conan install -s arch=x86 .. && cmake ..
-# cmake uses the native host on other platforms
+# otherwise
 conan install .. && cmake ..
 # build
 cmake --build . --config Release
