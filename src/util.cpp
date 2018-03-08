@@ -61,10 +61,6 @@ static std::string get_win32_tmp() {
 		auto errc = GetLastError();
 		throw std::runtime_error(jkpak::strerror(errc, "get_win32_tmp() failed"));
 	}
-	// trim trailing path sep
-	if (res > 0 && (buf[res-1] == '\\' || buf[res-1] == '/')) {
-		buf[res-1] = 0;
-	}
 	return std::string{buf};
 }
 #endif
@@ -74,7 +70,7 @@ const std::string& jkpak::tmp_path() noexcept {
 	static const std::string path = "/tmp/jkpak";
 	return path;
 #elif defined(_WIN32)
-	static const std::string path = get_win32_tmp();
+	static const std::string path = get_win32_tmp() + "jkpak";
 	return path;
 #else
 #	error "jkpak::tmp_path() not implemented for platform"
