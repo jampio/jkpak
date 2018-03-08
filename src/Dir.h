@@ -92,7 +92,7 @@ public:
 		dir.first_find.emplace(find_data);
 		return dir;
 #else
-		auto res = opendir(path);
+		auto res = opendir(path.data());
 		if (res == NULL_DIR_HANDLE) {
 			throw std::runtime_error(jkpak::strerror(errno, "opendir() failed"));
 		}
