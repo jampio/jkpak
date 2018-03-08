@@ -4,6 +4,7 @@
 #include <cstring>
 #include "Dir.h"
 #include <cctype>
+#include <iostream>
 
 #ifdef _WIN32
 #	include <shlobj.h>
@@ -124,7 +125,7 @@ bool jkpak::starts_with(std::string_view str, std::string_view start) {
 }
 
 void jkpak::foreach_pk3(std::string_view path, std::function<void(const char *filepath)> callback) {
-	auto dir = Dir::open(path.data());
+	auto dir = Dir::open(path);
 	for (auto entry = dir.read(); entry.has_value(); entry = dir.read()) {
 		auto filename = entry.value().filename();
 		if (ends_with(filename, ".pk3")

@@ -4,6 +4,8 @@
 #include <cerrno>
 #include <cstring>
 #include <optional>
+#include <string_view>
+#include <string>
 
 #if _POSIX_C_SOURCE >= 200809L
 #	include <dirent.h>
@@ -76,10 +78,12 @@ public:
 	}
 	Dir& operator=(const Dir&) = delete;
 	Dir& operator=(Dir&&) = delete;
-	static Dir open(const char *path) {
+	static Dir open(std::string_view path) {
 #if USE_WIN32_DIR
+		// Need \* to examine directory contents
+		std::string sPath = std::string(path) + "\\*";
 		WIN32_FIND_DATAA find_data;
-		auto res = FindFirstFileA(path, &find_data);
+		auto res = FindFirstFileA(sPath.c_str(), &find_data);
 		if (res == NULL_DIR_HANDLE) {
 			auto errc = GetLastError();
 			throw std::runtime_error(jkpak::strerror(errc, "FindFirstFile() failed"));
