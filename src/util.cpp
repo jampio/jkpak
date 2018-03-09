@@ -108,7 +108,7 @@ void jkpak::cp(std::string_view filename, std::string_view destination) {
 }
 
 void jkpak::unzip(std::string_view filename, std::string_view destination) {
-	exec(std::string("unzip ") + quote(filename) + " -d " + quote(destination));
+	exec(std::string("unzip -j -d ") + quote(destination) + " " + quote(filename));
 }
 
 bool jkpak::ends_with(std::string_view str, std::string_view end) {
