@@ -54,4 +54,6 @@ jkpak ls
 jkpak rm countryacademy.pk3
 # install jampgamei386.so and libcxa.so.1
 sudo jkpak install basejka
+# install asset pk3s from steam
+jkpak install steam-assets
 ```

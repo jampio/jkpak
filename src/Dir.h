@@ -128,5 +128,13 @@ public:
 		}
 #endif
 	}
+	static bool exists(std::string_view path) {
+		try {
+			auto dir = Dir::open(path);
+			return true;
+		} catch (...) {
+			return false;
+		}
+	}
 };
 }

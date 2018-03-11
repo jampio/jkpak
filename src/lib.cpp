@@ -5,6 +5,8 @@
 #include "util.h"
 #include "Config.h"
 #include "download.h"
+#include "Dir.h"
+#include "File.h"
 
 class SetupDir {
 public:
@@ -19,6 +21,28 @@ public:
 		jkpak::rmdir(jkpak::tmp_path());
 		jkpak::mkdir(jkpak::tmp_path());
 	}
+};
+
+class PathDelete {
+private:
+	bool m_should_delete;
+	std::string m_path;
+public:
+	PathDelete(std::string path)
+		: m_should_delete(!jkpak::File::exists(path))
+		, m_path(std::move(path))
+	{}
+	~PathDelete() {
+		if (m_should_delete) jkpak::rmdir(m_path);
+	}
+};
+
+class SetupSteamDir {
+private:
+#if defined(__linux__)
+	PathDelete path1{jkpak::env("HOME").value() + jkpak::path_sep() + ".steam"};
+	PathDelete path2{jkpak::env("HOME").value() + jkpak::path_sep() + "Steam"};
+#endif
 };
 
 void jkpak::cmd::install(std::string_view pkg_name) {
@@ -95,3 +119,50 @@ void jkpak::cmd::install_basejka_linux() {
 	exec(cmd);
 }
 #endif
+
+#if defined(__linux__)
+constexpr auto STEAMCMD_URL = "http://media.steampowered.com/installer/steamcmd_linux.tar.gz";
+constexpr auto STEAMCMD = "steamcmd.sh";
+#elif defined(_WIN32)
+constexpr auto STEAMCMD_URL = "http://media.steampowered.com/installer/steamcmd.zip";
+constexpr auto STEAMCMD = "steamcmd.exe";
+#endif
+
+void jkpak::cmd::install_steam_assets() {
+	SetupDir setupdir__;
+	SetupSteamDir steamdir__;
+	auto cfg = Config::load();
+	std::cout << "Using install path: " << cfg.install_path() << std::endl;
+	std::cout << "Downloading: " << STEAMCMD_URL << std::endl;
+	auto file = download_ignore_ext(STEAMCMD_URL);
+	auto zip_dir = tmp_path() + path_sep() + "unzip";
+	mkdir(zip_dir);
+#if defined(__linux__)
+	exec(std::string("tar -xvzf ") + quote(file) + " -C " + quote(zip_dir));
+#elif defined(_WIN32)
+	unzip(file, zip_dir);
+#endif
+	std::cout << "Steam username: ";
+	std::string username;
+	std::cin >> username;
+	std::cout << "Steam password: ";
+	set_stdin_echo(false);
+	std::string password;
+	std::cin >> password;
+	set_stdin_echo(true);
+	auto steam_path = tmp_path() + path_sep() + "SteamJKA";
+	auto cmd = zip_dir + path_sep() + STEAMCMD + " "
+	         + "+@sSteamCmdForcePlatformType windows "
+	         + "+login " + quote(username) + " " + quote(password) + " "
+	         + "+force_install_dir " + quote(steam_path) + " "
+	         + "+app_update 6020 validate +quit"
+	         ;
+	// steamcmd does not give reliable exit codes
+	(void) std::system(cmd.c_str());
+	auto base_path = steam_path + path_sep() + "GameData" + path_sep() + "base";
+	for (auto i = 0; i <= 3; i++) {
+		auto asset_path = base_path + path_sep() + "assets" + std::to_string(i) + ".pk3";
+		std::cout << "Copying " << asset_path << " to " << cfg.install_path() << std::endl;
+		cp(asset_path, cfg.install_path());
+	}
+}

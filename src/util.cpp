@@ -10,6 +10,11 @@
 #	include <shlobj.h>
 #endif
 
+#ifdef _POSIX_C_SOURCE
+#	include <termios.h>
+#	include <unistd.h>
+#endif
+
 constexpr auto NT_PATH = "\\";
 constexpr auto POSIX_PATH = "/";
 
@@ -214,4 +219,21 @@ std::string jkpak::escape_path(std::string_view path) {
 		else res.push_back(c);
 	}
 	return res;
+}
+
+void jkpak::set_stdin_echo(bool flag) {
+#if defined(_WIN32)
+	auto handle = GetStdHandle(STD_INPUT_HANDLE); 
+	DWORD mode;
+	GetConsoleMode(handle, &mode);
+	if (flag) mode |= ENABLE_ECHO_INPUT;
+	else mode &= ~ENABLE_ECHO_INPUT;
+	SetConsoleMode(handle, mode);
+#elif defined(_POSIX_C_SOURCE)
+	termios tty;
+	tcgetattr(STDIN_FILENO, &tty);
+	if (flag) tty.c_lflag |= ECHO;
+	else tty.c_lflag &= ~ECHO;
+	tcsetattr(STDIN_FILENO, TCSANOW, &tty);
+#endif
 }

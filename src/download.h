@@ -5,6 +5,8 @@
 #include <optional>
 
 namespace jkpak {
-	// returns absolute filename/path
-	std::string download(std::string_view url, std::optional<std::string_view> out_filepath = {});
+	std::string download(std::string_view url,
+	                     std::optional<std::string_view> out_filepath = {},
+	                     bool ignore_ext = false);
+	std::string download_ignore_ext(std::string_view url);
 }

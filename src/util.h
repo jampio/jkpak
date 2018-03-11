@@ -26,6 +26,7 @@ namespace jkpak {
 	std::string strerror(int code, std::string_view generic);
 	std::string escape_path(std::string_view path);
 	bool blacklisted(std::string_view pak);
+	void set_stdin_echo(bool flag);
 	template <typename Proc> 
 	std::string filter(std::string_view str, Proc&& proc) noexcept {
 		std::string res;

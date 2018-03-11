@@ -11,4 +11,5 @@ namespace jkpak::cmd {
 #ifdef __linux__
 	void install_basejka_linux();
 #endif
+	void install_steam_assets();
 }

@@ -93,14 +93,20 @@ static std::string get_filename(std::string_view url) {
 	}
 }
 
-std::string jkpak::download(std::string_view url, std::optional<std::string_view> out_filepath) {
+std::string jkpak::download_ignore_ext(std::string_view url) {
+	return download(url, {}, true);
+}
+
+std::string jkpak::download(std::string_view url,
+                            std::optional<std::string_view> out_filepath,
+                            bool ignore_ext) {
 	std::string filepath;
 	if (out_filepath) {
 		filepath = out_filepath.value().data();
 	} else {
 		auto filename = jkpak::clean_filename(get_filename(url));
 		std::cout << "Detected filename: \"" << filename << "\"" << std::endl;
-		if (!ends_with(filename, ".pk3") && !ends_with(filename, ".zip")) {
+		if (!ignore_ext && !ends_with(filename, ".pk3") && !ends_with(filename, ".zip")) {
 			throw std::runtime_error("Unknown file extension");
 		}
 		filepath = tmp_path() + path_sep() + filename;
