@@ -52,4 +52,6 @@ jkpak install https://files.jkhub.org/jka/maps/ffa/countryacademy.zip
 jkpak ls
 # remove a pk3
 jkpak rm countryacademy.pk3
+# install jampgamei386.so and libcxa.so.1
+sudo jkpak install basejka
 ```

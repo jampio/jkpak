@@ -8,4 +8,7 @@ namespace jkpak::cmd {
 	void list();
 	void delete_file(std::string_view pak);
 	void update();
+#ifdef __linux__
+	void install_basejka_linux();
+#endif
 }

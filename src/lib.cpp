@@ -75,3 +75,23 @@ void jkpak::cmd::delete_file(std::string_view pak) {
 void jkpak::cmd::update() {
 	Pkg::update();
 }
+
+#ifdef __linux__
+void jkpak::cmd::install_basejka_linux() {
+	SetupDir setupdir;
+	auto cfg = Config::load();
+	std::cout << "Using install path: " << cfg.install_path() << std::endl;
+	auto url = "https://files.jkhub.org/jka/official/jalinuxded_1.011.zip";
+	std::cout << "Downloading " << url << std::endl;
+	auto file = download(url);
+	auto zip_dir = tmp_path() + path_sep() + "unzip";
+	mkdir(zip_dir);
+	unzip(file, zip_dir);
+	auto jampgame = zip_dir + path_sep() + "jampgamei386.so";
+	std::cout << "Copying " << jampgame << " to " << cfg.install_path() << std::endl;
+	cp(jampgame, cfg.install_path());
+	auto cmd = std::string("install ") + quote(zip_dir + path_sep() + "libcxa.so.1") + " /usr/lib32/";
+	std::cout << cmd << std::endl;
+	exec(cmd);
+}
+#endif
