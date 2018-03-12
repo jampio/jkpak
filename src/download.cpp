@@ -38,14 +38,27 @@ struct HeaderData {
 	std::optional<std::string> filename;
 };
 
+static std::string parse_filename(std::string str) {
+	std::string filename;
+	if (auto s = str.c_str(); *s == '"') {
+		for (++s; *s && *s != '"'; s++) {
+			filename.push_back(*s);
+		}
+	} else {
+		filename = std::move(str);
+	}
+	return filename;
+}
+
 static std::size_t header_callback(char *buffer, std::size_t size, std::size_t nitems, void *userdata) {
 	// buffer is not null terminated
 	std::string s(buffer, nitems);
 	constexpr auto CD_PATTERN = "Content-Disposition: attachment; filename=";
 	if (auto pos = jkpak::casefind(s, CD_PATTERN); pos != std::string::npos) {
 		auto substr = s.substr(pos + strlen(CD_PATTERN));
+		auto filename = parse_filename(std::move(substr));
 		auto data = (HeaderData*)userdata;
-		data->filename.emplace(std::move(substr));
+		data->filename.emplace(std::move(filename));
 	}
 	return size * nitems;
 }
