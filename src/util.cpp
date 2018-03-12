@@ -50,8 +50,7 @@ const std::string& jkpak::config_path() {
 		env("XDG_CONFIG_HOME").value_or(env("HOME").value() + "/.config") + "/jkpak";
 	return path;
 #elif defined(_WIN32)
-	static const std::string path = 
-		env("USERPROFILE").value() + path_sep() + "AppData" + path_sep() + "Local" + path_sep() + "jkpak";
+	static const std::string path = env("LOCALAPPDATA").value() + path_sep() + "jkpak";
 	return path;
 #else
 #	error "jkpak::config_path() not implemented for platform"
