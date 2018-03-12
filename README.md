@@ -32,16 +32,8 @@ make && sudo make install
 ```shell
 # install conan & add remotes
 pip install conan && python remotes.py
-# setup dir
-mkdir build && cd build
-# For Windows x86_64 (note: cmake defaults to 32-bit on 64-bit hosts)
-conan install .. && cmake -A x64 ..
-# For Windows x86_64 crossbuild to Windows x86
-conan install -s arch=x86 .. && cmake ..
-# otherwise
-conan install .. && cmake ..
 # build
-cmake --build . --config Release
+bin\build
 ```
 
 ### usage

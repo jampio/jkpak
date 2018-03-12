@@ -7,6 +7,7 @@
 #include "download.h"
 #include "Dir.h"
 #include "File.h"
+#include <tuple>
 
 class SetupDir {
 public:
@@ -46,7 +47,7 @@ private:
 };
 
 void jkpak::cmd::install(std::string_view pkg_name) {
-	SetupDir setupdir;
+	[[maybe_unused]] SetupDir setupdir;
 	auto cfg = Config::load();
 	std::cout << "Using install path: " << cfg.install_path() << std::endl;
 	std::string url;
@@ -129,8 +130,8 @@ constexpr auto STEAMCMD = "steamcmd.exe";
 #endif
 
 void jkpak::cmd::install_steam_assets() {
-	SetupDir setupdir__;
-	SetupSteamDir steamdir__;
+	[[maybe_unused]] SetupDir setupdir;
+	[[maybe_unused]] SetupSteamDir steamdir;
 	auto cfg = Config::load();
 	std::cout << "Using install path: " << cfg.install_path() << std::endl;
 	std::cout << "Downloading: " << STEAMCMD_URL << std::endl;
@@ -158,7 +159,7 @@ void jkpak::cmd::install_steam_assets() {
 	         + "+app_update 6020 validate +quit"
 	         ;
 	// steamcmd does not give reliable exit codes
-	auto _ignored_ = std::system(cmd.c_str());
+	std::ignore = std::system(cmd.c_str());
 	auto base_path = steam_path + path_sep() + "GameData" + path_sep() + "base";
 	for (auto i = 0; i <= 3; i++) {
 		auto asset_path = base_path + path_sep() + "assets" + std::to_string(i) + ".pk3";
