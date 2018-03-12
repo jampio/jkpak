@@ -16,14 +16,24 @@ Requirements
 * Conan (ver. >= 1) (a C++ dependency manager)
 * C++17 compiler (should support either -std=c++17 or /std:c++17)
 * unzip available in PATH
+#### Linux (with APT)
 ```shell
-# install conan if you haven't already
-pip install conan
-# add bincrafters repository (contains libcurl)
-conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-# ...
-git clone https://github.com/jampio/jkpak
-cd jkpak && mkdir build && cd build
+# install unzip (required at runtime)
+sudo apt install unzip
+# install cmake (cmake from APT is dated)
+wget -O cmake.sh https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh
+sudo sh cmake.sh --skip-license --exclude-subdir --prefix=/usr/local
+# install conan & add remotes
+pip install conan && python remotes.py
+# build (will install into /usr/local/bin)
+make && sudo make install
+```
+#### Windows
+```shell
+# install conan & add remotes
+pip install conan && python remotes.py
+# setup dir
+mkdir build && cd build
 # For Windows x86_64 (note: cmake defaults to 32-bit on 64-bit hosts)
 conan install .. && cmake -A x64 ..
 # For Windows x86_64 crossbuild to Windows x86
@@ -32,9 +42,6 @@ conan install -s arch=x86 .. && cmake ..
 conan install .. && cmake ..
 # build
 cmake --build . --config Release
-# (for UNIX only)
-# this will install to /usr/local/bin
-sudo cmake --build . --target install
 ```
 
 ### usage

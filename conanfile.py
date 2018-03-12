@@ -7,7 +7,8 @@ class JKPAK(ConanFile):
 	generators = 'cmake'
 	settings = 'os', 'compiler', 'build_type', 'arch'
 
-#	def build(self):
-#		cmake = CMake(self)
-#		cmake.configure()
-#		cmake.build()
+	def build(self):
+		cmake = CMake(self)
+		cmake.configure()
+		cmake.build()
+		cmake.install()

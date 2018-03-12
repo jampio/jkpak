@@ -158,7 +158,7 @@ void jkpak::cmd::install_steam_assets() {
 	         + "+app_update 6020 validate +quit"
 	         ;
 	// steamcmd does not give reliable exit codes
-	(void) std::system(cmd.c_str());
+	auto _ignored_ = std::system(cmd.c_str());
 	auto base_path = steam_path + path_sep() + "GameData" + path_sep() + "base";
 	for (auto i = 0; i <= 3; i++) {
 		auto asset_path = base_path + path_sep() + "assets" + std::to_string(i) + ".pk3";
