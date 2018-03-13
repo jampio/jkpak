@@ -1,26 +1,35 @@
 language: cpp
-sudo: required
+sudo: false
 dist: trusty
+compiler:
+  - gcc
+  - clang
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - xutils-dev
+      - g++-7
+      - gcc-7
 
 before_install:
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt update -qq
-  - sudo apt install -y g++-7 gcc-7 xutils-dev
+  - set -e
   - pyenv global 2.7.14
-  - sudo rm $(which cmake)
   - wget -O cmake.sh https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh
-  - sudo sh cmake.sh --skip-license --exclude-subdir --prefix=/usr/local
+  - mkdir $HOME/cmake
+  - sh cmake.sh --skip-license --exclude-subdir --prefix=$HOME/cmake
+  - export PATH="$HOME/cmake/bin:$PATH"
  
 install:
-  - if [[ "${EVAL}" != "" ]]; then eval "${EVAL}"; fi
+  - set -e
   - pip install conan --user
   - python remotes.py
-  - mkdir build
-  - conan install -if build . --build
 
 script:
-  - if [[ "${EVAL}" != "" ]]; then eval "${EVAL}"; fi
+  - set -e
+  - if [[ "${CC}" == "gcc" ]]; then export CC=gcc-7; export CXX=g++-7; fi
+  - mkdir build
+  - conan install -if build . --build
   - conan build -bf build .
-
-env:
-  - EVAL="CC=gcc-7 && CXX=g++-7"
