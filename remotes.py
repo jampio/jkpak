@@ -23,7 +23,7 @@ if __name__ == '__main__':
 		if url_inuse(conan_remotes, url):
 			print('Remote already registered')
 		else:
-			if name_inuse(remotes, name):
+			if name_inuse(conan_remotes, name):
 				name += '_jkpak'
 			print('Adding remote {} {}'.format(name, url))
 			conan.remote_add(name + '_jkpak', url)
