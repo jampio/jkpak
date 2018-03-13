@@ -26,4 +26,4 @@ if __name__ == '__main__':
 			if name_inuse(conan_remotes, name):
 				name += '_jkpak'
 			print('Adding remote {} {}'.format(name, url))
-			conan.remote_add(name + '_jkpak', url)
+			conan.remote_add(name, url)
