@@ -1,2 +1,2 @@
 mkdir build
-conan install -if build . & conan build -bf build .
+conan install -if build . --build missing & conan build -bf build .
