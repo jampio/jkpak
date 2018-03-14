@@ -31,5 +31,5 @@ script:
   - set -e
   - if [[ "${CC}" == "gcc" ]]; then export CC=gcc-7; export CXX=g++-7; fi
   - mkdir build && cd build
-  - conan install --build ..
+  - conan install .. --build
   - conan build ..
