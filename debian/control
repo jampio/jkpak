@@ -1,0 +1,2 @@
+Source: jkpak
+Build-Depends: xutils-dev, unzip, gcc (>=7.0), g++ (>=7.0)

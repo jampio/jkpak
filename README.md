@@ -6,34 +6,36 @@ Feel free to open issues for jkpak requests/bugs/etc.
 To request a file be added, please send a pull request or open an issue here [jkpak-repo](https://github.com/jampio/jkpak-repo). (not in this repo please)
 
 ### future plans
-* cross-platform support
 * OpenJK integration
 
 ### building
 Requirements
-* CMake (ver. >= 3.10.2)
-* Python 2 (ver. >= 2.7.9) or Python 3 (ver. >= 3.4)
-* Conan (ver. >= 1) (a C++ dependency manager)
-* C++17 compiler (should support either -std=c++17 or /std:c++17)
+* cmake (ver. >= 3.10)
+* c++17 compiler (should support either -std=c++17 or /std:c++17)
 * unzip available in PATH
-#### Linux (with APT)
+#### installing cmake 3.10.2 on linux x86_64
 ```shell
-# install unzip (required at runtime)
-sudo apt install unzip
-# install cmake (cmake from APT is dated)
 wget -O cmake.sh https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh
 sudo sh cmake.sh --skip-license --exclude-subdir --prefix=/usr/local
-# install conan & add remotes
-pip install conan && python remotes.py
-# build (will install into /usr/local/bin)
-make && sudo make install
 ```
-#### Windows
+#### APT deps
 ```shell
-# install conan & add remotes
-pip install conan && python remotes.py
+dpkg-checkbuilddeps || sudo apt build-dep .
+```
+#### building
+```shell
+pip install -r requirements.txt
+python remotes.py
+mkdir build
+cd build
+# this will download conan binaries
+conan install ..
+# otherwise you can build them from source
+conan install --build ..
 # build
-bin\build
+conan build ..
+# or build & install to /usr/local
+sudo conan build -pf /usr/local ..
 ```
 
 ### usage

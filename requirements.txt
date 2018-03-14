@@ -1,0 +1,3 @@
+python_version >= '2.7.14'; python_version == '2.*'
+python_version >= '3.6.3'; python_version == '3.*'
+conan >= '1.1.0'
