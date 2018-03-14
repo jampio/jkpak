@@ -28,14 +28,13 @@ pip install -r requirements.txt
 python remotes.py
 mkdir build
 cd build
-# this will download conan binaries
+# download & install conan dep binaries
+# use "conan install --build .." to build only from source
+# use "conan install --build=missing .." to build only missing binaries from source
 conan install ..
-# otherwise you can build them from source
-conan install --build ..
-# build
+# build project
+# use "sudo conan build -pf /usr/local .." to install to /usr/local after
 conan build ..
-# or build & install to /usr/local
-sudo conan build -pf /usr/local ..
 ```
 
 ### usage

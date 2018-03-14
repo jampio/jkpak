@@ -24,12 +24,12 @@ before_install:
  
 install:
   - set -e
-  - pip install conan --user
+  - pip install -r requirements.txt
   - python remotes.py
 
 script:
   - set -e
   - if [[ "${CC}" == "gcc" ]]; then export CC=gcc-7; export CXX=g++-7; fi
-  - mkdir build
-  - conan install -if build . --build
-  - conan build -bf build .
+  - mkdir build && cd build
+  - conan install --build ..
+  - conan build ..
