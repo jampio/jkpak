@@ -1,4 +1,4 @@
-# jkpak [![Build Status](https://travis-ci.org/jampio/jkpak.svg?branch=master)](https://travis-ci.org/jampio/jkpak)
+# jkpak [![Build Status](https://travis-ci.org/jampio/jkpak.svg?branch=master)](https://travis-ci.org/jampio/jkpak) [![Build Status](https://jampio.visualstudio.com/_apis/public/build/definitions/840fa40e-8f86-42d0-a2a4-de2765971876/1/badge)](https://jampio.visualstudio.com/jkpak/_build/index?definitionId=1)
 A pk3 manager for jedi academy. I could see it being repurposed for other games as well.
 
 Feel free to open issues for jkpak requests/bugs/etc.
