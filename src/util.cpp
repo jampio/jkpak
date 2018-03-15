@@ -111,10 +111,6 @@ void jkpak::cp(std::string_view filename, std::string_view destination) {
 #endif
 }
 
-void jkpak::unzip(std::string_view filename, std::string_view destination) {
-	exec(std::string("unzip -j -d ") + quote(destination) + " " + quote(filename));
-}
-
 bool jkpak::ends_with(std::string_view str, std::string_view end) {
 	auto npos = std::string_view::npos;
 	return str.size() >= end.size() && str.compare(str.size() - end.size(), npos, end) == 0;

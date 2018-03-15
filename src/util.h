@@ -4,6 +4,7 @@
 #include <string>
 #include <string_view>
 #include <functional>
+#include "unzip.h"
 
 namespace jkpak {
 	std::optional<std::string> env(std::string_view var_name) noexcept;

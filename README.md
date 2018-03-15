@@ -12,7 +12,6 @@ To request a file be added, please send a pull request or open an issue here [jk
 Requirements
 * cmake (ver. >= 3.10)
 * c++17 compiler (should support either -std=c++17 or /std:c++17)
-* unzip available in PATH
 #### installing cmake 3.10.2 on linux x86_64
 ```shell
 wget -O cmake.sh https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh
@@ -28,12 +27,7 @@ pip install -r requirements.txt
 python remotes.py
 mkdir build
 cd build
-# download & install conan dep binaries
-# use "conan install .. --build" to build only from source
-# use "conan install .. --build=missing" to build only missing binaries from source
-conan install ..
-# build project
-# use "sudo conan build -pf /usr/local .." to install to /usr/local after
+conan install .. --build=missing
 conan build ..
 ```
 

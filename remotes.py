@@ -1,5 +1,6 @@
 REMOTES = ( ('bincrafters', 'https://api.bintray.com/conan/bincrafters/public-conan')
           , ('conan-community', 'https://api.bintray.com/conan/conan-community/conan')
+		  , ('boujee', 'https://api.bintray.com/conan/boujee/conan ')
           )
 
 if __name__ == '__main__':
